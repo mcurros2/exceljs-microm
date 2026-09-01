@@ -1,7 +1,7 @@
 {
-  "name": "exceljs",
-  "version": "4.4.0",
-  "description": "Excel Workbook Manager - Read and Write xlsx and csv Files.",
+  "name": "exceljs-microm",
+  "version": "4.4.1",
+  "description": "MicroM-maintained ExcelJS fork with support for implicit XLSX row and cell references.",
   "private": false,
   "license": "MIT",
   "author": {
@@ -10,7 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/exceljs/exceljs.git"
+    "url": "git+https://github.com/mcurros2/exceljs-microm.git"
+  },
+  "homepage": "https://github.com/mcurros2/exceljs-microm#readme",
+  "bugs": {
+    "url": "https://github.com/mcurros2/exceljs-microm/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "engines": {
     "node": ">=8.3.0"
@@ -40,6 +47,9 @@
     "test:end-to-end": "mocha --require spec/config/setup spec/end-to-end --recursive",
     "test:browser": "if [ ! -f .disable-test-browser ]; then npm run build && npm run test:jasmine; fi",
     "test:jasmine": "grunt jasmine",
+    "test:microm:unit": "mocha --require spec/config/setup --require spec/config/setup-unit spec/unit/xlsx/xform/sheet/row-xform.spec.js",
+    "test:microm:integration": "mocha --require spec/config/setup spec/integration/issues/missing-row-cell-references.spec.js",
+    "test:microm": "npm run test:microm:unit && npm run test:microm:integration",
     "test:unit:es5": "export EXCEL_BUILD=es5 && npm run test:unit",
     "test:integration:es5": "export EXCEL_BUILD=es5 && npm run test:integration",
     "test:end-to-end:es5": "export EXCEL_BUILD=es5 && npm run test:end-to-end",
@@ -55,8 +65,8 @@
     "benchmark:debug": "node --expose-gc --inspect-brk --trace-deopt benchmark",
     "build": "grunt build",
     "install-build": "npm install && grunt build",
-    "preversion": "npm run clean && npm run build && npm run test:version",
-    "postversion": "git push --no-verify && git push --tags --no-verify"
+    "prepublishOnly": "npm run build && npm run test:microm && npm run test:dist",
+    "publish:public": "npm publish --access public"
   },
   "husky": {
     "hooks": {
@@ -119,6 +129,7 @@
     "chai-datetime": "^1.7.0",
     "chai-xml": "^0.3.2",
     "core-js": "^3.6.5",
+    "crypto-browserify": "3.12.1",
     "dirty-chai": "^2.0.1",
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.2.0",
@@ -145,5 +156,10 @@
     "sax": "^1.2.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
+  },
+  "allowScripts": {
+    "core-js@3.50.0": true,
+    "husky@4.3.8": true,
+    "puppeteer@1.20.0": true
   }
 }

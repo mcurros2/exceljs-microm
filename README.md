@@ -1,10 +1,14 @@
 # ExcelJS
 
-[![Build Status](https://github.com/exceljs/exceljs/actions/workflows/tests.yml/badge.svg?branch=master&event=push)](https://github.com/exceljs/exceljs/actions/workflows/tests.yml)
+[![Build Status](https://github.com/mcurros2/exceljs-microm/actions/workflows/tests.yml/badge.svg?branch=master&event=push)](https://github.com/mcurros2/exceljs-microm/actions/workflows/tests.yml)
 
 Read, manipulate and write spreadsheet data and styles to XLSX and JSON.
 
 Reverse engineered from Excel spreadsheet files as a project.
+
+> **MicroM fork:** `exceljs-microm` is based on ExcelJS 4.4.0 and adds support for
+> XLSX worksheets whose row and cell `r` references are omitted, including files
+> produced by streaming writers such as Sylvan.Data.Excel.
 
 # Translations
 
@@ -13,7 +17,7 @@ Reverse engineered from Excel spreadsheet files as a project.
 # Installation
 
 ```shell
-npm install exceljs
+npm install exceljs-microm
 ```
 
 # New Features!
@@ -178,7 +182,7 @@ To be clear, all contributions added to this library will be included in the lib
 # Importing[⬆](#contents)<!-- Link generated with jump2header -->
 
 ```javascript
-const ExcelJS = require('exceljs');
+const ExcelJS = require('exceljs-microm');
 ```
 
 ## ES5 Imports[⬆](#contents)<!-- Link generated with jump2header -->

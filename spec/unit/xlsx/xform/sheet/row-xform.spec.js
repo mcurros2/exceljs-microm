@@ -1,5 +1,6 @@
 const testXformHelper = require('../test-xform-helper');
 
+const ListXform = verquire('xlsx/xform/list-xform');
 const RowXform = verquire('xlsx/xform/sheet/row-xform');
 const SharedStringsXform = verquire('xlsx/xform/strings/shared-strings-xform');
 const Enums = verquire('doc/enums');
@@ -170,6 +171,45 @@ const expectations = [
       styles: fakeStyles,
       hyperlinkMap: fakeHyperlinkMap,
     },
+  },
+  {
+    title: 'Missing row and cell references',
+    create: () => new RowXform(),
+    xml: '<row><c><v>5</v></c><c><v>6</v></c></row>',
+    parsedModel: {
+      number: 1,
+      cells: [
+        {address: 'A1', type: Enums.ValueType.Number, value: 5},
+        {address: 'B1', type: Enums.ValueType.Number, value: 6},
+      ],
+    },
+    tests: ['parse'],
+  },
+  {
+    title: 'Mixed and sequential missing references',
+    create: () =>
+      new ListXform({
+        tag: 'sheetData',
+        count: false,
+        empty: true,
+        childXform: new RowXform(),
+      }),
+    xml:
+      '<sheetData><row r="5"><c r="C5"><v>5</v></c><c><v>6</v></c></row><row><c><v>7</v></c></row></sheetData>',
+    parsedModel: [
+      {
+        number: 5,
+        cells: [
+          {address: 'C5', type: Enums.ValueType.Number, value: 5},
+          {address: 'D5', type: Enums.ValueType.Number, value: 6},
+        ],
+      },
+      {
+        number: 6,
+        cells: [{address: 'A6', type: Enums.ValueType.Number, value: 7}],
+      },
+    ],
+    tests: ['parse'],
   },
 ];
 
